@@ -18,6 +18,16 @@ This guide covers:
 
 ---
 
+> ⚠️ **CLI-only feature.** Plugins as described here are a **Copilot CLI** distribution mechanism. They are *not* installed or managed by VS Code's GitHub Copilot Chat extension. The closest VS Code workflows are:
+>
+> - **Sharing a `.github/` folder** in a repo — agents (`.github/agents/`, `.github/chatmodes/`), skills (`.github/skills/`), MCP config (`.vscode/mcp.json`) and instructions (`copilot-instructions.md`, `instructions/`) are all picked up automatically when the repo is opened in VS Code.
+> - **Settings sync** for personal-level chat modes, instructions and MCP server configs across machines.
+> - **VS Code Marketplace extensions** for distributing entirely new tools (a different mechanism — extensions are full VS Code plugins, not Copilot plugins).
+>
+> The rest of this doc is CLI-specific.
+
+---
+
 ## What Are Plugins?
 
 A plugin is a directory containing a `plugin.json` manifest and one or more components:

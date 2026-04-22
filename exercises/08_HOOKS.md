@@ -316,6 +316,87 @@ properly, explicit `exit 0` on the happy path, both shells provided).
 
 ---
 
+## Part C — In VS Code
+
+> ⚠️ Hooks **do not run** in VS Code's GitHub Copilot Chat extension. They only fire in Copilot CLI and the cloud agent. This part teaches you the *equivalent VS Code workflow*.
+
+### C1. Comprehension — Match each hook use case to its closest VS Code-friendly equivalent
+
+| Hook use case | Best VS Code-friendly replacement |
+|---|---|
+| Log every shell tool call to a file | ? |
+| Block `git push --force` to `main` | ? |
+| Send a Slack notification when a session starts | ? |
+| Audit trail of all agent actions for compliance | ? |
+
+<details>
+<summary>Show answer</summary>
+
+| Hook use case | VS Code-friendly equivalent |
+|---|---|
+| Log every shell tool call to a file | "Output: GitHub Copilot Chat" log channel; or a small chat-usage extension |
+| Block `git push --force` to `main` | Repo branch protection rule on the remote, or a local `pre-push` hook (Husky / `pre-commit`) |
+| Send a Slack notification when a session starts | A VS Code task that runs on workspace open; or a status-bar extension |
+| Audit trail of all agent actions for compliance | Source-control-driven audit (require PRs, branch protection, signed commits) + CI checks |
+
+The big mental shift: in VS Code you can't *intercept* the agent itself, so you push the policy out to the **edges** — the editor lifecycle, the local git hooks, and the remote (GitHub) protections.
+</details>
+
+### C2. Hands-on — Implement a "no force-push to main" policy without Copilot hooks
+
+**Goal:** replicate the spirit of B-style policy enforcement using VS Code-friendly tools.
+
+Pick **one** of the following:
+
+**Option A — Local `pre-push` hook (works everywhere):**
+
+1. In a scratch repo:
+   ```bash
+   mkdir -p .githooks
+   ```
+2. Create `.githooks/pre-push`:
+   ```bash
+   #!/usr/bin/env bash
+   while read local_ref local_sha remote_ref remote_sha; do
+     if [[ "$remote_ref" == "refs/heads/main" ]]; then
+       if git rev-list --left-right --count "$remote_sha...$local_sha" | awk '{exit ($1 != 0)}'; then
+         echo "BLOCKED: force-push to main refused by pre-push hook" >&2
+         exit 1
+       fi
+     fi
+   done
+   exit 0
+   ```
+3. `chmod +x .githooks/pre-push && git config core.hooksPath .githooks`
+4. Try `git push --force origin main` — it should be blocked, regardless of whether Copilot, you, or any IDE issued the push.
+
+**Option B — Remote branch protection (works for the team):**
+
+1. On GitHub, open the repo → Settings → Branches → "Add branch protection rule".
+2. Pattern: `main`. Enable "Restrict force pushes" (and "Require pull request reviews").
+3. Try `git push --force origin main` — GitHub rejects it server-side.
+4. Document this in the repo's `README.md` so VS Code users know the rule exists.
+
+<details>
+<summary>Hint</summary>
+
+The pre-push hook approach is **defence in depth** — you can stack it with branch protection. Keep `.githooks/` in the repo and document the `git config core.hooksPath .githooks` step in your README so teammates opt in.
+</details>
+
+<details>
+<summary>Solution</summary>
+
+You should observe:
+
+- A normal `git push origin main` (fast-forward) succeeds.
+- `git push --force origin main` is refused either locally (Option A: by your hook script) or remotely (Option B: by GitHub).
+- Crucially, this works regardless of whether the push came from Copilot CLI, VS Code Chat in Agent mode, or you typing in a terminal — because the policy lives **outside** the agent.
+
+That's the right mental model for VS Code: when you can't hook the agent, hook the *workflow*.
+</details>
+
+---
+
 ## Stretch goal
 
 Build a small "policy pack" `hooks.json` for a real repo of yours that:

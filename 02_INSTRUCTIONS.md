@@ -359,9 +359,51 @@ These instructions are only for Copilot cloud agent / CLI, not code review.
 
 ---
 
+## VS Code (Copilot Chat) — Equivalents
+
+The same instruction files work for the **CLI**, the **VS Code (stable)** GitHub Copilot Chat extension, and the **cloud agent**. You don't need a separate copy:
+
+- `.github/copilot-instructions.md`
+- `AGENTS.md` / `CLAUDE.md` / `GEMINI.md` (in the git root or any parent directory)
+- `.github/instructions/*.instructions.md` (with `applyTo` glob)
+
+### VS Code-specific settings
+
+Open **Settings (UI)** and search, or edit `settings.json`:
+
+| Setting | What it does |
+|---|---|
+| `github.copilot.chat.codeGeneration.useInstructionFiles` | Master switch — must be `true` for `.github/copilot-instructions.md` to apply |
+| `chat.instructionsFilesLocations` | Add custom directories that should also be scanned for `*.instructions.md` files |
+| `github.copilot.chat.codeGeneration.instructions` | Inline instructions (small list in settings, no file needed) |
+| `github.copilot.chat.testGeneration.instructions` | Same, scoped to test generation |
+| `github.copilot.chat.commitMessageGeneration.instructions` | Same, scoped to commit messages |
+| `github.copilot.chat.reviewSelection.instructions` | Same, scoped to "review selection" |
+
+### Personal / user-level instructions in VS Code
+
+- Use **Settings sync** to share `github.copilot.chat.*Generation.instructions` across machines.
+- Place a personal `*.instructions.md` in your VS Code user profile folder and add the folder to `chat.instructionsFilesLocations`.
+
+### Verifying loaded instructions in VS Code
+
+- **Chat: Show Used Instructions** (Command Palette, `Ctrl+Shift+P`) — lists files applied to the most recent request.
+- Hover the "Used N instructions" indicator on any assistant reply to see which files were used for that turn.
+
+### Quick mapping
+
+| CLI | VS Code (Copilot Chat) |
+|---|---|
+| `/init` | "Generate Workspace Instructions File" command (where available); otherwise hand-write `.github/copilot-instructions.md` |
+| `/instructions` | **Chat: Show Used Instructions** |
+| `/env` | No single equivalent — combine "Show Used Instructions", "MCP: List Servers" and the Chat output channel |
+
+---
+
 ## Further Reading
 
 - [GitHub Docs: Adding Repository Custom Instructions](https://docs.github.com/en/copilot/how-tos/configure-custom-instructions/add-repository-instructions)
+- [VS Code Docs: Custom instructions for Copilot](https://code.visualstudio.com/docs/copilot/copilot-customization)
 - [GitHub Docs: About Customizing Copilot Responses](https://docs.github.com/en/copilot/concepts/prompting/response-customization)
 - [AGENTS.md Standard](https://github.com/agentsmd/agents.md)
 - [Copilot CLI Documentation](https://docs.github.com/en/copilot/how-tos/use-copilot-agents/use-copilot-cli)

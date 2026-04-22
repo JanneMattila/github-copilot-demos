@@ -266,6 +266,78 @@ identical and that the project file ends in exactly `.agent.md`.
 
 ---
 
+## Part C — In VS Code
+
+> ⚠️ Plugins are a **CLI-only** distribution mechanism. VS Code's GitHub Copilot Chat extension does not install or manage Copilot plugins. This part teaches you the *equivalent VS Code workflow*.
+
+### C1. Comprehension — How would you ship the same agent + skill + MCP combo to a VS Code teammate?
+
+<details>
+<summary>Show answer</summary>
+
+There's no single installable artifact. You assemble it from the pieces VS Code already understands:
+
+- **Agents → custom chat modes:** put `*.chatmode.md` files in `.github/chatmodes/` of the shared repo (or in the user's profile `prompts/` for personal-only).
+- **Skills:** keep them in `.github/skills/` as usual — VS Code Agent mode loads them.
+- **MCP servers:** put a `.vscode/mcp.json` in the shared repo (or, for personal, use **Settings sync** to share `mcp.servers` in user settings).
+- **Instructions:** `.github/copilot-instructions.md` and `.github/instructions/*.instructions.md` work as-is.
+
+Anyone who clones the repo and opens it in VS Code with the GitHub Copilot Chat extension gets all four — no install step.
+</details>
+
+### C2. Hands-on — Replicate `hello-plugin` (B3) for VS Code
+
+**Goal:** take the `hello-plugin` you built in Part B3 and reproduce its *capabilities* in a single repo that a VS Code user can clone.
+
+Success criteria:
+
+- A scratch repo with:
+  - `.github/chatmodes/greeter.chatmode.md` — the VS Code analogue of the `greeter` agent.
+  - `.github/skills/greet/SKILL.md` — same as the plugin's skill.
+  - `.github/copilot-instructions.md` — at least one short rule.
+  - (Optional) `.vscode/mcp.json` if you want to bundle a server.
+- A teammate cloning the repo and opening it in VS Code can:
+  - Pick `greeter` from the chat mode dropdown.
+  - Trigger the `greet` skill with a relevant prompt in Agent mode.
+
+<details>
+<summary>Solution</summary>
+
+`.github/chatmodes/greeter.chatmode.md`:
+
+```markdown
+---
+description: A friendly chat mode that opens with a personalised greeting before answering anything.
+tools: ["codebase", "search"]
+---
+
+You are a warm, friendly assistant. Always start your first reply in a chat
+with: "Hi there 👋 — happy to help!" Then answer the user's question normally.
+Keep the greeting to one line; do not repeat it on follow-up turns.
+```
+
+`.github/skills/greet/SKILL.md`:
+
+```markdown
+---
+name: greet
+description: Produces a personalised greeting given a name. Use when the user explicitly asks to "greet" someone.
+---
+
+When the user asks to greet `<name>`, reply with exactly:
+
+```
+Hello, <name>! 🎉
+```
+
+Do nothing else.
+```
+
+Add a `README.md` explaining how to use it. The result: a *repo-shaped plugin* — no `plugin.json`, no `copilot plugin install`, just `git clone` and `code .`.
+</details>
+
+---
+
 ## Stretch goal
 
 Take one of your favourite combinations of agent + skill + hooks from

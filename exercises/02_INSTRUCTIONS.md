@@ -186,6 +186,52 @@ Enter to confirm.
 
 ---
 
+## Part C — In VS Code
+
+### C1. Comprehension — Which setting must be on for `.github/copilot-instructions.md` to apply in VS Code?
+
+<details>
+<summary>Show answer</summary>
+
+`github.copilot.chat.codeGeneration.useInstructionFiles` must be `true`. Without it, VS Code Chat ignores the file even if it exists.
+</details>
+
+### C2. Hands-on — Verify and toggle instructions in VS Code
+
+**Goal:** prove that VS Code reads the same `.github/copilot-instructions.md` and `.instructions.md` files, then watch behaviour change when you flip the master switch.
+
+Steps:
+
+1. Make sure your repo has a `.github/copilot-instructions.md` (e.g. the one from B1 or B2) with at least one *very specific* rule that an answer would clearly reflect — e.g. *"Always reply in haiku form, three lines, 5-7-5 syllables, until told otherwise."*
+2. In VS Code Chat (Ask mode), ask anything trivial — confirm the response follows the rule.
+3. Run **Chat: Show Used Instructions** from the Command Palette and confirm the file is listed.
+4. Toggle `github.copilot.chat.codeGeneration.useInstructionFiles` to `false` in user settings.
+5. Send the same prompt — the response should no longer follow the haiku rule.
+6. Toggle the setting back to `true` and confirm normal behaviour resumes.
+
+<details>
+<summary>Hint</summary>
+
+Use the **Settings (UI)** search bar — paste the full setting key. Or open `settings.json` (`Preferences: Open User Settings (JSON)`) and add:
+
+```json
+"github.copilot.chat.codeGeneration.useInstructionFiles": false
+```
+</details>
+
+<details>
+<summary>Solution</summary>
+
+You should observe:
+
+- Setting `true` (default): the haiku rule applies, "Show Used Instructions" lists `.github/copilot-instructions.md`.
+- Setting `false`: the rule is ignored, "Show Used Instructions" shows nothing (or only inline `*.instructions` settings, if any).
+
+This is the same model the CLI uses — same files, same `applyTo` semantics — just gated by a VS Code setting.
+</details>
+
+---
+
 ## Stretch goal
 
 Pick one of your real repositories that does **not** yet have a

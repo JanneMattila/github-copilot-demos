@@ -21,8 +21,9 @@ Every exercise mirrors the same shape:
 
 1. **Learning objectives** — what you should be able to do afterwards.
 2. **Part A — Comprehension (Q&A)** — short questions about the concepts.
-3. **Part B — Hands-on tasks** — small things to actually do in Copilot CLI / your repo.
-4. **Stretch goal** — one open-ended challenge with no provided solution.
+3. **Part B — Hands-on tasks (CLI)** — small things to do in **Copilot CLI**.
+4. **Part C — In VS Code** — a comprehension question and a hands-on task in **VS Code (stable)** + GitHub Copilot Chat. For topics that are CLI-only (plugins, hooks), Part C explains the gap and suggests the closest VS Code workflow.
+5. **Stretch goal** — one open-ended challenge with no provided solution.
 
 ## Hints, answers, solutions
 
@@ -46,6 +47,7 @@ You'll see three kinds of collapsible blocks:
 ## Prerequisites
 
 - A working install of GitHub Copilot CLI (`copilot --version`).
+- **VS Code (stable)** with the **GitHub Copilot Chat** extension installed and signed in to your Copilot account — used in every exercise's *Part C*.
 - A scratch git repo you don't mind experimenting in (or use this one — most
   exercises only create files under `exercises-sandbox/` or your own
   `~/.copilot/` folder).

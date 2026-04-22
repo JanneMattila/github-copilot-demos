@@ -390,6 +390,18 @@ git branch -d feature/task-1 feature/task-2
 
 ---
 
+### Per-worktree VS Code settings
+
+Each worktree is a normal directory, so you can give each its own `.vscode/settings.json` (just `.gitignore` it if you don't want to commit it). This is especially useful when running multiple Copilot chat sessions in parallel on different worktrees:
+
+- A different **window color** (`workbench.colorCustomizations`) so you can tell agent windows apart at a glance.
+- A different **default chat mode** (`chat.defaultMode`) — e.g. force "Agent" in agent worktrees and "Ask" in your main one.
+- A different **MCP config** per worktree via `.vscode/mcp.json` (see [06_MCP.md](./06_MCP.md)).
+
+> **Note:** the section above mentions VS Code Insiders, but everything in this doc works on **VS Code stable** with the GitHub Copilot Chat extension. Insiders is only required for Copilot features still in preview.
+
+---
+
 ## Further Reading
 
 - [Git Worktree Documentation](https://git-scm.com/docs/git-worktree)

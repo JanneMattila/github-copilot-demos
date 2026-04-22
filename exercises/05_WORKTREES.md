@@ -181,6 +181,55 @@ One branch per worktree is the rule.
 
 ---
 
+## Part C — In VS Code
+
+### C1. Comprehension — How does multi-root help with worktrees?
+
+<details>
+<summary>Show answer</summary>
+
+A **multi-root workspace** (`File → Add Folder to Workspace…`) lets one VS Code window show multiple worktrees side by side, each as a folder root. Source Control groups changes per-root, so you can review and commit per-worktree. Alternatively, open each worktree in its own VS Code window for full isolation (recommended when running an agent in each).
+</details>
+
+### C2. Hands-on — Two parallel agents, one VS Code window each
+
+**Goal:** repeat exercise B4 (two parallel Copilot sessions, one per worktree), but using VS Code Chat in **Agent** mode instead of Copilot CLI.
+
+Steps:
+
+1. From your scratch repo's main worktree, create two worktrees:
+   ```bash
+   git worktree add ../app-agent-auth  -b feature/auth
+   git worktree add ../app-agent-tests -b feature/tests
+   ```
+2. Open each worktree in its **own** VS Code window:
+   ```bash
+   code ../app-agent-auth
+   code ../app-agent-tests
+   ```
+3. In each window, open the Chat view, switch to **Agent** mode, and give a different task — e.g. "add an auth helper" in one, "add test scaffolding" in the other.
+4. Watch both agents work in parallel without interfering.
+5. Optional: in `.vscode/settings.json` of each worktree, set a different `workbench.colorCustomizations` so the windows are visually distinct, and `chat.defaultMode: "agent"` so chat opens in Agent mode automatically.
+
+<details>
+<summary>Hint</summary>
+
+Add the workspace-level color customization with something like:
+
+```json
+{
+  "workbench.colorCustomizations": {
+    "titleBar.activeBackground": "#7e57c2"
+  },
+  "chat.defaultMode": "agent"
+}
+```
+
+Add `.vscode/settings.json` to `.git/info/exclude` if you don't want to commit it.
+</details>
+
+---
+
 ## Stretch goal
 
 Set up a long-running "agent garden": a sibling-directory layout where every

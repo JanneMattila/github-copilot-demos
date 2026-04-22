@@ -189,9 +189,43 @@ Posts a JSON payload to an echo API endpoint (`https://echo.jannemattila.com/api
 
 **Rule of thumb:** Use custom instructions for things that apply to every task. Use skills for things that only apply sometimes.
 
+## Skills in VS Code
+
+Skills work in **VS Code (stable)** GitHub Copilot Chat **Agent mode** as well as in Copilot CLI and the cloud agent. They are loaded from the same locations:
+
+- Workspace: `.github/skills/`
+- Personal: `~/.copilot/skills/` (also `~/.claude/skills/` etc.)
+
+### Trying a skill in VS Code
+
+1. Open the Chat view and switch to **Agent** mode.
+2. Make sure the workspace contains the skill folder (e.g. `.github/skills/hello/`).
+3. Send a prompt that matches the skill's `description` — for example *"say hello using the hello skill"*.
+4. The agent loads the skill and follows its instructions, including running any referenced scripts (with confirmation, unless `allowed-tools: shell` is set).
+
+### Verifying that skills are discovered
+
+- Use the chat overflow (`…`) menu on a recent reply to see the "Used N skills" indicator.
+- Run **Chat: Show Used Skills** from the Command Palette (where available) to list which skills were applied to the most recent turn.
+
+### Caveats
+
+- `allowed-tools: shell` carries the same security trade-off in VS Code as in the CLI — scripts will run without prompting. Only use it on skills you fully trust.
+- Skills load on demand; a vague `description` will cause Chat to ignore them just like the CLI does.
+
+### Quick mapping
+
+| CLI | VS Code (Copilot Chat) |
+|---|---|
+| `/skills` to list available skills | "Chat: Show Used Skills" / overflow menu on a reply |
+| Trigger by relevant prompt in any mode | Trigger by relevant prompt in **Agent** mode |
+
+---
+
 ## Further Reading
 
 - [GitHub Docs: Adding Agent Skills](https://docs.github.com/en/copilot/how-tos/use-copilot-agents/cloud-agent/add-skills)
+- [VS Code Docs: Use chat in agent mode](https://code.visualstudio.com/docs/copilot/chat/chat-agent-mode)
 - [About Agent Skills](https://docs.github.com/en/copilot/concepts/agents/about-agent-skills)
 - [Agent Skills Standard](https://agentskills.io/home)
 - [Awesome Copilot Skills](https://awesome-copilot.github.com/skills/)

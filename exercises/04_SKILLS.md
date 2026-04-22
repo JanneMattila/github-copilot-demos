@@ -216,6 +216,36 @@ confirmation), or *no shell at all*:
 
 ---
 
+## Part C — In VS Code
+
+### C1. Comprehension — In which VS Code chat mode are skills loaded?
+
+<details>
+<summary>Show answer</summary>
+
+**Agent** mode. Skills are loaded on demand based on their `description` matching the user's prompt — same as in the CLI. Ask and Edit modes won't trigger skills.
+</details>
+
+### C2. Hands-on — Trigger an existing skill from VS Code Chat
+
+**Goal:** see a skill load on demand inside VS Code Agent mode.
+
+Steps:
+
+1. Open this repo in VS Code (it ships with the `hello` and `call-api` skills under `.github/skills/`).
+2. Open the Chat view and switch to **Agent** mode.
+3. Send: *"please run the hello skill"* — confirm the skill executes (you'll see the script run, possibly with a confirmation prompt).
+4. Send something unrelated like *"summarize `#file:server.js`"* — the skill should **not** load.
+5. Send: *"post `{\"hi\":\"there\"}` to the echo API using the call-api skill"* — confirm the API call happens.
+
+<details>
+<summary>Hint</summary>
+
+If skills don't seem to be discovered, run **Developer: Reload Window** and confirm the path is exactly `.github/skills/<name>/SKILL.md` (case-sensitive). Without `allowed-tools: shell` in the skill frontmatter, VS Code will prompt you to approve script execution — that's expected.
+</details>
+
+---
+
 ## Stretch goal
 
 Pick one of these and build it:

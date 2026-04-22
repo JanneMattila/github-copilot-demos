@@ -555,9 +555,68 @@ If your `.mcp.json` references secrets via environment variables, that's fine. B
 
 ---
 
+## VS Code (Copilot Chat) — MCP
+
+**VS Code stable** + the GitHub Copilot Chat extension supports MCP servers out of the box.
+
+### Configuration locations
+
+| Scope | File / Setting |
+|---|---|
+| Workspace | `.vscode/mcp.json` |
+| User | User `settings.json` → `"mcp": { "servers": { ... } }` (or `MCP: Add Server…` command) |
+| Built-in | The GitHub MCP server is registered automatically |
+
+The JSON shape inside `.vscode/mcp.json` mirrors `.mcp.json`:
+
+```json
+{
+  "servers": {
+    "playwright": {
+      "command": "npx",
+      "args": ["@playwright/mcp@latest", "--headless"]
+    }
+  }
+}
+```
+
+> **Naming gotcha:** VS Code uses `"servers"` while Copilot CLI uses `"mcpServers"` — copy the structure carefully when porting between the two.
+
+### Managing MCP servers in VS Code
+
+- **MCP: List Servers** — Command Palette command, shows status per server.
+- **MCP Servers** view in the sidebar — start, stop, restart, view available tools.
+- **MCP: Add Server…** — interactive walkthrough that writes the right config.
+- Setting `chat.mcp.enabled` (default `true`) — master enable/disable.
+- Setting `chat.mcp.discovery.enabled` — auto-discover MCP servers from other tools' configs (e.g. Claude Desktop).
+
+### Using MCP from chat
+
+In **Agent** mode, MCP tools become regular tools the agent can call. You can also bias the agent toward a particular tool or server:
+
+- `#tool:server-name/tool-name` — "use this specific tool"
+- `#mcp:server-name` — "prefer tools from this server"
+
+### Precedence (VS Code)
+
+User-level MCP config and workspace `.vscode/mcp.json` are merged. If the same server name is defined in both, **workspace wins** — same intuition as project-level `.mcp.json` overriding `~/.copilot/mcp-config.json` in CLI.
+
+### Quick mapping
+
+| CLI | VS Code (Copilot Chat) |
+|---|---|
+| `.mcp.json` (`mcpServers`) | `.vscode/mcp.json` (`servers`) |
+| `~/.copilot/mcp-config.json` | User `settings.json` → `mcp.servers` |
+| `/mcp` | **MCP: List Servers** + MCP Servers view |
+| `/mcp add` | **MCP: Add Server…** |
+| `--additional-mcp-config` | No direct equivalent — edit user/workspace settings |
+
+---
+
 ## Further Reading
 
 - [GitHub Docs: Adding MCP Servers](https://docs.github.com/en/copilot/how-tos/copilot-cli/customize-copilot/add-mcp-servers)
+- [VS Code Docs: MCP servers in Copilot Chat](https://code.visualstudio.com/docs/copilot/chat/mcp-servers)
 - [GitHub Docs: Extending Cloud Agent with MCP](https://docs.github.com/en/copilot/how-tos/use-copilot-agents/cloud-agent/extend-cloud-agent-with-mcp)
 - [MCP Specification](https://modelcontextprotocol.io/)
 - [MCP Server Registry](https://github.com/modelcontextprotocol/servers)

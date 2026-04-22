@@ -244,6 +244,53 @@ line is actually being used.
 
 ---
 
+## Part C — In VS Code
+
+### C1. Comprehension — Two differences between `.mcp.json` (CLI) and `.vscode/mcp.json` (VS Code)
+
+<details>
+<summary>Show answer</summary>
+
+1. **Top-level key name:** CLI uses `"mcpServers"`, VS Code uses `"servers"`. Same shape underneath, different key.
+2. **Location and discovery:** CLI looks for `.mcp.json` at the repo root (and `.github/mcp.json`); VS Code looks for `.vscode/mcp.json` (and merges with user `settings.json` → `mcp.servers`).
+
+Bonus: VS Code also has a built-in **MCP Servers** sidebar view and the `MCP: Add Server…` command, neither of which exist in CLI.
+</details>
+
+### C2. Hands-on — Register Playwright MCP via `.vscode/mcp.json`
+
+**Goal:** add the Playwright MCP server to a VS Code workspace and use it from Agent mode.
+
+Steps:
+
+1. Create `.vscode/mcp.json`:
+   ```json
+   {
+     "servers": {
+       "playwright": {
+         "command": "npx",
+         "args": ["@playwright/mcp@latest", "--headless"]
+       }
+     }
+   }
+   ```
+2. Run the **MCP: List Servers** command — confirm `playwright` is listed and started.
+3. Open the **MCP Servers** sidebar view to inspect the tools it exposes (`browser_navigate`, `browser_snapshot`, etc.).
+4. Start the demo server (`node server.js` from this repo) in another terminal.
+5. In Chat (Agent mode), prompt:
+   > Use the Playwright MCP server to navigate to http://localhost:3000, take an accessibility snapshot, and report what text appears on the page along with any console errors.
+6. Confirm Chat invokes the Playwright tools and gives a sensible answer.
+
+<details>
+<summary>Hint</summary>
+
+Don't accidentally use the CLI key name `mcpServers` — VS Code will silently ignore the file. If `MCP: List Servers` doesn't show your server, that's the most common cause.
+
+If the server fails to start, run `npx @playwright/mcp@latest --help` in a terminal — it may need to download browsers on first use.
+</details>
+
+---
+
 ## Stretch goal
 
 Pick a small internal API or database you're allowed to play with and either:

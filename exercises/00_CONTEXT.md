@@ -195,6 +195,57 @@ Steps:
 list is long, look for the name you set in step 1.
 </details>
 
+## Part C — In VS Code
+
+> Use **VS Code (stable)** with the GitHub Copilot Chat extension. Open this repo as the workspace.
+
+### C1. Comprehension — Map CLI to VS Code
+
+Match each CLI action to its VS Code Chat equivalent:
+
+| CLI | VS Code Chat |
+|---|---|
+| `/new` | ? |
+| `@server.js` | ? |
+| Autopilot mode | ? |
+| `!git status` then use the output | ? |
+
+<details>
+<summary>Show answer</summary>
+
+| CLI | VS Code Chat |
+|---|---|
+| `/new` | "New Chat" button at the top of the Chat view |
+| `@server.js` | `#file:server.js`, or the **Add Context…** (📎) picker |
+| Autopilot mode | **Agent** mode in the chat input mode dropdown |
+| `!git status` then use the output | Run `git status` in the integrated terminal, then attach `#terminalLastCommand` |
+</details>
+
+### C2. Hands-on — context references in VS Code Chat
+
+**Goal:** answer the same question you used in B2, but in VS Code Chat — and use at least three different context references.
+
+Steps:
+
+1. Open this repo in VS Code.
+2. Open the Chat view (`Ctrl+Alt+I` / `Cmd+Ctrl+I`) and switch to **Ask** mode.
+3. Open `server.js` and select a few lines.
+4. Send a prompt that uses `#file:server.js`, `#selection`, and `#codebase` together — e.g.
+   *"Using `#file:server.js`, the `#selection` I have open, and `#codebase` for context, what HTTP routes are exposed and how could a new `/healthz` route be added?"*
+5. Look at the "Used N references" indicator on the reply to verify Chat actually attached all three.
+
+<details>
+<summary>Hint</summary>
+
+Type `#` in the chat input to get autocomplete for available references — including `#file`, `#folder`, `#codebase`, `#selection`, `#editor`, `#problems`, `#changes`, `#terminalLastCommand`.
+</details>
+
+<details>
+<summary>Solution</summary>
+
+The point isn't a single right answer — it's that you saw Chat respect explicit references the way the CLI respects `@file`. Compare with Part B2: in CLI you used one `@server.js`; here you can layer references for richer context.
+</details>
+
 ---
 
 ## Stretch goal

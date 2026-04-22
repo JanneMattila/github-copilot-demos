@@ -198,6 +198,72 @@ For each scenario, choose `.github/agents/`, `~/.copilot/agents/`, or "either":
 
 ---
 
+## Part C — In VS Code
+
+### C1. Comprehension — What is the VS Code equivalent of `*.agent.md`?
+
+<details>
+<summary>Show answer</summary>
+
+A **custom chat mode**: `*.chatmode.md`, located in `.github/chatmodes/` (workspace) or your VS Code user profile `prompts/` folder. It serves the same purpose as a CLI custom agent — a reusable persona with its own instructions and allowed tools.
+</details>
+
+### C2. Hands-on — Build the `commit-msg` persona as a VS Code chat mode
+
+**Goal:** repeat exercise B2, but as a VS Code chat mode you can pick from the chat input dropdown.
+
+Success criteria:
+
+- File at `.github/chatmodes/commit-msg.chatmode.md`.
+- Frontmatter includes `description` and `tools`.
+- Body: same Conventional Commits instructions as B2.
+- It appears in the VS Code chat mode dropdown after a reload.
+- Selecting it and asking *"suggest a commit message for my staged changes"* produces a sensible suggestion (and does **not** run `git commit`).
+
+<details>
+<summary>Hint</summary>
+
+After creating the file, you may need to run **Developer: Reload Window** (`Ctrl+Shift+P`) for VS Code to pick up the new chat mode. Tools available in chat modes use VS Code names (e.g. `codebase`, `search`, `editFiles`, `runCommands`, `terminalLastCommand`).
+</details>
+
+<details>
+<summary>Solution</summary>
+
+`.github/chatmodes/commit-msg.chatmode.md`:
+
+```markdown
+---
+description: Writes Conventional Commits messages from currently staged changes. Pick before running git commit.
+tools: ["codebase", "search", "runCommands", "terminalLastCommand"]
+---
+
+You write **Conventional Commits**-formatted commit messages from the user's
+currently staged Git changes.
+
+## Workflow
+
+1. Run `git diff --cached --stat` to see which files changed.
+2. Run `git diff --cached` to read the actual change.
+3. Pick the right type (`feat`, `fix`, `docs`, `refactor`, `test`, `chore`,
+   `perf`, `ci`, `build`).
+4. Pick a scope from the top-level folder of the changes.
+5. Write a `<= 72 char` summary in the imperative mood.
+6. Optionally add a body explaining *why* the change was needed.
+7. Print the final message in a fenced code block. **Do not** run `git commit`.
+
+## Examples
+
+- `feat(api): add /healthz endpoint`
+- `fix(ui): handle empty user list without crashing`
+
+If nothing is staged, say so and stop.
+```
+
+After reload, the chat mode dropdown should list `commit-msg`. Select it, switch to a small staged change, and ask for a message.
+</details>
+
+---
+
 ## Stretch goal
 
 Build a more ambitious agent of your own choice. Suggestions:

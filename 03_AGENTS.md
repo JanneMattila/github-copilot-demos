@@ -266,9 +266,64 @@ They all complement each other. An agent can use skills, and instructions apply 
 
 ---
 
+## VS Code Equivalent — Custom Chat Modes
+
+**VS Code (stable)** doesn't load `*.agent.md` files directly; instead it has **custom chat modes**, which serve the same purpose: a reusable persona with its own instructions, allowed tools and (optionally) preferred model.
+
+### File location and naming
+
+| Scope | Location | Filename |
+|---|---|---|
+| Workspace | `.github/chatmodes/` | `*.chatmode.md` |
+| User profile | VS Code user data dir → `prompts/` | `*.chatmode.md` |
+
+### File format
+
+```markdown
+---
+description: A brief description of when to pick this mode.
+tools: ["codebase", "search", "editFiles", "runCommands"]
+model: claude-sonnet-4.5
+---
+
+You are a [role]. Your responsibilities…
+```
+
+### Selecting a chat mode
+
+1. Open the Chat view.
+2. Click the mode dropdown next to the chat input.
+3. The list shows built-in modes (Ask / Edit / Agent) **and** your custom modes from `.github/chatmodes/` and your user profile.
+
+### Cross-targeting agents and chat modes
+
+If you want one Markdown body to serve both surfaces:
+
+- Use `.agent.md` for CLI/cloud agent and `.chatmode.md` for VS Code, sharing the body content via a templating step or a symlink.
+- Use the `target:` frontmatter on `.agent.md` to restrict it to a single surface (`target: github-copilot` or `target: vscode`).
+
+### When to choose which
+
+| Need | Use |
+|---|---|
+| Persona used in CLI + cloud agent | `.agent.md` |
+| Persona used in VS Code chat | `.chatmode.md` |
+| Same persona on both surfaces | Both files (or a build step that produces both) |
+
+### Quick mapping
+
+| CLI | VS Code (Copilot Chat) |
+|---|---|
+| `/agent` to pick an agent | Chat input mode dropdown |
+| `.github/agents/*.agent.md` | `.github/chatmodes/*.chatmode.md` |
+| `~/.copilot/agents/*.agent.md` | User-profile `prompts/*.chatmode.md` |
+
+---
+
 ## Further Reading
 
 - [GitHub Docs: Creating Custom Agents](https://docs.github.com/en/copilot/how-tos/use-copilot-agents/cloud-agent/create-custom-agents)
+- [VS Code Docs: Custom chat modes](https://code.visualstudio.com/docs/copilot/chat/chat-modes)
 - [GitHub Docs: Custom Agents Configuration Reference](https://docs.github.com/en/copilot/reference/custom-agents-configuration)
 - [GitHub Docs: About Custom Agents](https://docs.github.com/en/copilot/concepts/agents/cloud-agent/about-custom-agents)
 - [GitHub Blog: How to Write a Great agents.md](https://github.blog/ai-and-ml/github-copilot/how-to-write-a-great-agents-md-lessons-from-over-2500-repositories/)

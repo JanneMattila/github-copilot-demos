@@ -442,9 +442,58 @@ This gives the CLI access to VS Code's language intelligence (diagnostics, go-to
 
 ---
 
+## VS Code (Copilot Chat) — Equivalents
+
+Most concepts in this guide map directly to GitHub Copilot Chat in **VS Code (stable)**. Here's a side-by-side cheat sheet so you can apply the same mental model in either surface.
+
+### Sessions and conversations
+
+| CLI | VS Code (Copilot Chat) |
+|---|---|
+| `/new` | **New Chat** button (top of the chat view) |
+| `/clear` | Close the chat view, or start a new chat |
+| `/resume` | Reopen a previous chat from the chat history pane |
+| `/rename` | Rename a chat from its `…` menu |
+| `/share` | Export chat → "Chat: Export…" command |
+| `/compact` | No direct equivalent — start a new chat or remove old turns from the history pane |
+| `/undo`, `/rewind` | "Undo last edit" in the editor; revert agent changes via the Source Control view |
+
+### Adding context to a prompt
+
+| CLI | VS Code (Copilot Chat) |
+|---|---|
+| `@file` (file mention) | `#file:path/to/file` or the **Add Context…** (📎) picker |
+| `@<dir>` | `#codebase` (workspace search) or `#folder:path` |
+| `#42` (issue/PR) | Paste the issue/PR URL — Chat fetches it automatically |
+| `!cmd` (run shell) | Run the command in the integrated terminal, then attach `#terminalLastCommand` |
+| Active selection | `#selection` (Chat sees what you have selected in the editor) |
+| Open editor | `#editor` |
+| Problems pane | `#problems` |
+| Pending git changes | `#changes` |
+
+### Interaction modes
+
+| CLI mode | VS Code Chat mode | Best for |
+|---|---|---|
+| Suggest | **Ask** | Q&A, explanations — no file changes |
+| Edit | **Edit** | Targeted edits with a diff to review |
+| Autopilot | **Agent** | Multi-step autonomous tasks (read, edit, run, iterate) |
+
+Switch modes from the dropdown next to the chat input (Ask / Edit / Agent).
+
+### Tips
+
+- VS Code Chat keeps multiple conversations in the **Chat history** view — each one is roughly equivalent to a CLI session.
+- Use `#codebase` to let Chat search the whole workspace (slower, but useful when you don't know where to look). Prefer `#file:` for files you can name.
+- **Agent** mode is the closest analogue to CLI Autopilot mode and is the only VS Code chat mode that can run terminal commands and iterate on its own.
+
+---
+
 ## Further Reading
 
 - [GitHub Copilot CLI Documentation](https://docs.github.com/en/copilot/how-tos/use-copilot-agents/use-copilot-cli)
+- [GitHub Copilot in VS Code](https://code.visualstudio.com/docs/copilot/overview)
+- [VS Code: Use chat in agent mode](https://code.visualstudio.com/docs/copilot/chat/chat-agent-mode)
 - [About Copilot CLI](https://docs.github.com/en/copilot/concepts/agents/about-copilot-cli)
 - [About Premium Requests](https://docs.github.com/en/copilot/managing-copilot/monitoring-usage-and-entitlements/about-premium-requests)
 - [Customizing Copilot Responses](https://docs.github.com/en/copilot/concepts/prompting/response-customization)

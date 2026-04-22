@@ -15,6 +15,21 @@ This guide covers:
 
 ---
 
+> ⚠️ **Not a VS Code chat feature.** Hooks fire only inside **Copilot CLI** (`hooks.json` in the working directory) and the **cloud agent** (`.github/hooks/*.json` on the default branch). VS Code's GitHub Copilot Chat extension does **not** run these hooks.
+>
+> If you need similar behaviour in VS Code, the closest alternatives are:
+>
+> | Hook use case | VS Code-friendly alternative |
+> |---|---|
+> | Logging tool calls | "Output → GitHub Copilot Chat" log channel; chat usage extensions |
+> | Blocking destructive shell commands | Pre-commit / pre-push hooks (Husky, `pre-commit`), shell aliases, branch protection |
+> | Notifying on session start/end | VS Code tasks that run on workspace open; status-bar extensions |
+> | Audit trail for compliance | Source-control-driven audit (require PRs, branch protection, signed commits) + CI checks |
+>
+> The rest of this doc is CLI / cloud-agent specific.
+
+---
+
 ## What Are Hooks?
 
 Hooks are event-driven shell commands that execute at specific points in the Copilot agent lifecycle. They let you:

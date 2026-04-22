@@ -158,6 +158,35 @@ in the further-reading section.
 
 ---
 
+## Part C — In VS Code
+
+### C1. Comprehension — Where is the VS Code model picker?
+
+<details>
+<summary>Show answer</summary>
+
+In the **chat input bar** — click the model name in the lower-right of the chat input box to open the picker. The selection is remembered per chat mode (Ask / Edit / Agent), so you can default to a cheap model for Ask and a more capable one for Agent.
+</details>
+
+### C2. Hands-on — Compare two models in VS Code
+
+**Goal:** repeat exercise B2, but inside VS Code Chat, and additionally pin different models per chat mode.
+
+Steps:
+
+1. Open the Chat view in VS Code, switch to **Ask** mode and pick the cheapest model available (e.g. Haiku 4.5 or GPT-5 mini).
+2. Switch to **Edit** mode and pick the default Sonnet 4.5.
+3. Switch to **Agent** mode and pick the most capable model you have (e.g. Opus 4.6 or GPT-5).
+4. Ask a small refactor question in each mode, on the same file. Note how the answers differ.
+
+<details>
+<summary>Hint</summary>
+
+The picker remembers each mode's choice independently. Open the dropdown in each mode and confirm — switching modes shouldn't reset your selection.
+</details>
+
+---
+
 ## Stretch goal
 
 Design a small "model routing" personal rule for yourself: write 5–8 lines

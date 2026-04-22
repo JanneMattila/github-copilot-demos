@@ -124,10 +124,34 @@ When using Copilot programmatically (e.g., in GitHub Actions via the coding agen
 5. **Experiment** — Different models sometimes give surprisingly different solutions to the same problem. If one model's answer isn't great, try another
 6. **Match model to mode** — In autopilot mode, a smarter model reduces the chance of getting stuck in loops
 
+## Switching Models in VS Code
+
+In **VS Code (stable)** with the GitHub Copilot Chat extension, the model picker lives in the chat input bar:
+
+1. Open the Chat view (`Ctrl+Alt+I` / `Cmd+Ctrl+I`).
+2. Click the **model name** in the lower-right of the chat input box.
+3. Pick from the list of models available to your account.
+
+The same model IDs apply (`claude-sonnet-4.5`, `gpt-5`, etc.). Availability depends on your Copilot subscription and any organization policy.
+
+### Per-mode model preferences
+
+You can pick a different model for **Ask**, **Edit** and **Agent** modes. The picker remembers each one independently — handy if you want, say, Haiku for quick Asks and Opus for longer Agent runs.
+
+### Verifying which model is in use
+
+- Hover the chat input model picker — it shows the current selection.
+- The chat header indicates the active model on the most recent assistant message.
+
 ## Quick Reference
 
+| Surface | How to switch | How to check usage |
+|---|---|---|
+| **CLI** | `/model` (interactive) or `copilot --model <id>` at launch | `/usage` |
+| **VS Code (Copilot Chat)** | Click the model name in the chat input bar | GitHub.com → Settings → Copilot → Usage |
+
 ```
-/model                    # Pick a model interactively
-/usage                    # Check premium request usage
-copilot --model <id>      # Start with a specific model
+/model                    # CLI: pick a model interactively
+/usage                    # CLI: check premium request usage
+copilot --model <id>      # CLI: start with a specific model
 ```
