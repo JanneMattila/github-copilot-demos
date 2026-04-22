@@ -1,0 +1,13 @@
+{
+  "name": "demo-with-worktrees",
+  "version": "1.0.0",
+  "description": "A vanilla Hello World Node.js web app with zero dependencies",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs"
+}

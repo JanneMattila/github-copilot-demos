@@ -1,2 +1,3 @@
-# github-copilot-demos
+# GitHub Copilot demos
+
 GitHub Copilot demos
