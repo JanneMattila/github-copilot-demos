@@ -48,7 +48,7 @@ When you select an agent, its profile is loaded into Copilot's context. The agen
 - Filename must end with `.agent.md`
 - Allowed characters: `a-z`, `A-Z`, `0-9`, `-`, `_`, `.`
 - The filename (without `.agent.md`) becomes the default agent name
-- Examples: `roast-agent.agent.md`, `emoji-agent.agent.md`, `test-specialist.agent.md`
+- Examples: `roast-agent.agent.md`, `emoji-agent.agent.md`, `document-writer.agent.md`
 
 ### Directory structure
 
@@ -57,7 +57,9 @@ When you select an agent, its profile is loaded into Copilot's context. The agen
 └── agents/
     ├── roast-agent.agent.md
     ├── emoji-agent.agent.md
-    └── test-specialist.agent.md
+    ├── document-writer.agent.md
+    ├── document-critic.agent.md
+    └── document-publisher.agent.md
 ```
 
 ---
@@ -193,7 +195,7 @@ git commit -m "Add my-agent custom agent"
 
 ## Example Agents in This Repo
 
-This repository includes two fun example agents to demonstrate the concept:
+This repository includes both playful and practical example agents:
 
 ### 🔥 `roast-agent`
 
@@ -220,6 +222,24 @@ An agent that uses emojis way too much in every response. Every sentence gets mu
 → Select "emoji-agent"
 → Ask it anything
 ```
+
+### ✍️ `document-writer`
+
+**Location:** `.github/agents/document-writer.agent.md`
+
+Creates Markdown-first draft content from user-provided information. This agent is the first stage in a multi-agent document pipeline.
+
+### 🔎 `document-critic`
+
+**Location:** `.github/agents/document-critic.agent.md`
+
+Finds missing pieces, checks for inaccurate statements, and validates factual claims using reliable online sources before passing the result onward.
+
+### 📰 `document-publisher`
+
+**Location:** `.github/agents/document-publisher.agent.md`
+
+Finalizes wording so the result reads like a high-quality article while still using easy-to-understand language. It can stop the handoff chain when no further critic or publisher changes are needed.
 
 ---
 
