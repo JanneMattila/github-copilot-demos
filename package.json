@@ -1,10 +1,10 @@
 {
-  "name": "demo-with-worktrees",
+  "name": "github-copilot-demos",
   "version": "1.0.0",
   "description": "A vanilla Hello World Node.js web app with zero dependencies",
   "main": "server.js",
   "scripts": {
-    "start": "node server.js"
+    "start": "node src/server.js"
   },
   "keywords": [],
   "author": "",
